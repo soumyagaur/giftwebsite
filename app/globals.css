@@ -1,0 +1,92 @@
+@import "tailwindcss";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #f9fafb;
+    --foreground: #ededed;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: Inter, Helvetica, Arial, sans-serif;
+}
+
+/* ================================
+   MOBILE NAVBAR RESPONSIVE (SAFE)
+   ================================ */
+
+@media (max-width: 768px) {
+
+  /* Festive banner smaller on mobile */
+  header > div:first-child {
+    height: 24px;
+    background-size: cover;
+    background-position: center;
+  }
+
+  /* Reduce logo size only */
+  header img {
+    height: 175px;
+  }
+
+  /* Compact icons */
+  header svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  /* Hide desktop category menu */
+  nav {
+    display: none;
+  }
+}
+
+@media (max-width: 768px) {
+
+  /* Hide desktop-only header items */
+  header .flex.flex-col {
+    display: none;
+  }
+
+  /* Show only cart & user */
+  header a[href="/cart"],
+  header a[href="/account"] {
+    display: flex;
+  }
+
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+@media (min-width: 64rem) {
+    .md\:py-12 {
+        padding-top: .75rem !important;
+        padding-bottom: .75rem !important;
+    }
+}
+
+:where(.space-y-12 > :not(:last-child)) {
+    --tw-space-y-reverse: 0;
+    margin-block-start: calc(calc(var(--spacing) * 12) * var(--tw-space-y-reverse));
+    margin-block-end: calc(calc(var(--spacing) * 12) * calc(1 - var(--tw-space-y-reverse)));
+}
