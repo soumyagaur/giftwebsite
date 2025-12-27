@@ -574,92 +574,94 @@ return (
 </div>
 </section>
 
-<section className="">
-      <div className="max-w-7xl mx-auto px-4">
+<section className="py-8 sm:py-12">
+  <div className="max-w-7xl mx-auto px-4">
 
-        <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
-          Tailored For Your Occasions
-        </h2>
+    {/* HEADING */}
+    <h2 className="text-xl sm:text-3xl font-bold text-gray-900 mb-5 sm:mb-6">
+      Tailored For Your Occasions
+    </h2>
 
-        {/* TABS */}
-{/* TABS – FNP STYLE */}
-<div className="flex gap-8 border-b pb-4 mb-8 overflow-x-auto">
+    {/* TABS */}
+    <div className="flex gap-4 sm:gap-8 border-b pb-3 sm:pb-4 mb-6 sm:mb-8 overflow-x-auto scrollbar-hide">
+      {[
+        { key: "Christmas", label: "Christmas", icon: "🎄" },
+        { key: "Birthday", label: "Birthday", icon: "🎂" },
+        { key: "Anniversary", label: "Anniversary", icon: "💍" },
+        { key: "Wedding", label: "Wedding", icon: "👰" },
+      ].map((tab) => {
+        const isActive = activeTab === tab.key;
 
-{[
-  { key: "Christmas", label: "Christmas", icon: "🎄" },
-  { key: "Birthday", label: "Birthday", icon: "🎂" },
-  { key: "Anniversary", label: "Anniversary", icon: "💍" },
-  { key: "Wedding", label: "Wedding", icon: "👰" },
-].map((tab) => {
-  const isActive = activeTab === tab.key;
+        return (
+          <button
+            key={tab.key}
+            onClick={() =>
+              setActiveTab(tab.key as keyof typeof occasionData)
+            }
+            className={`flex flex-col items-center justify-center
+              min-w-[88px] sm:min-w-[110px]
+              rounded-xl px-3 sm:px-4 py-2.5 sm:py-3
+              transition-all
+              ${
+                isActive
+                  ? "bg-[#F6F6ED] border border-[#B7B28A]"
+                  : "hover:bg-gray-50"
+              }`}
+          >
+            <span className="text-lg sm:text-xl">{tab.icon}</span>
 
-  return (
-    <button
-      key={tab.key}
-      onClick={() =>
-        setActiveTab(tab.key as keyof typeof occasionData)
-      }
-      className={`flex flex-col items-center justify-center min-w-[110px]
-        rounded-xl px-4 py-3 transition-all
-        ${
-          isActive
-            ? "bg-[#F6F6ED] border border-[#B7B28A]"
-            : "hover:bg-gray-50"
-        }`}
-    >
-      <span className="text-xl">{tab.icon}</span>
-
-      <span
-        className={`mt-1 text-sm font-medium
-          ${
-            isActive ? "text-gray-900" : "text-gray-500"
-          }`}
-      >
-        {tab.label}
-      </span>
-    </button>
-  );
-})}
-
-</div>
-
-
-        {/* PRODUCTS */}
-<div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-{occasionData[activeTab]?.map((item) => (
-  <div
-    key={item.title}
-    className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition
-                h-full flex flex-col"
-  >
-    {/* IMAGE */}
-    <div className="relative">
-      <img
-        src={item.img}
-        alt={item.title}
-        className="w-full h-64 sm:h-72 object-cover"
-      />
-
-      {item.badge && (
-        <span className="absolute bottom-3 left-3 bg-green-600 text-white text-xs font-semibold px-2 py-1 rounded-md">
-          {item.badge}
-        </span>
-      )}
+            <span
+              className={`mt-1 text-xs sm:text-sm font-medium
+                ${
+                  isActive ? "text-gray-900" : "text-gray-500"
+                }`}
+            >
+              {tab.label}
+            </span>
+          </button>
+        );
+      })}
     </div>
 
-    {/* CONTENT */}
-    <div className="p-4 flex flex-col flex-grow">
-      <p className="text-sm font-medium text-gray-900 line-clamp-2 mb-1">
-        {item.title}
-      </p>
-      <p className="text-base font-semibold text-gray-900 mt-auto">
-        {item.price}
-      </p>
+    {/* PRODUCTS */}
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+      {occasionData[activeTab]?.map((item) => (
+        <div
+          key={item.title}
+          className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition
+                     flex flex-col"
+        >
+          {/* IMAGE */}
+          <div className="relative">
+            <img
+              src={item.img}
+              alt={item.title}
+              className="w-full h-44 sm:h-64 lg:h-72 object-cover"
+            />
+
+            {item.badge && (
+              <span className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3
+                bg-green-600 text-white text-[10px] sm:text-xs
+                font-semibold px-2 py-1 rounded-md">
+                {item.badge}
+              </span>
+            )}
+          </div>
+
+          {/* CONTENT */}
+          <div className="p-3 sm:p-4 flex flex-col flex-grow">
+            <p className="text-xs sm:text-sm font-medium text-gray-900 line-clamp-2 mb-1">
+              {item.title}
+            </p>
+            <p className="text-sm sm:text-base font-semibold text-gray-900 mt-auto">
+              {item.price}
+            </p>
+          </div>
+        </div>
+      ))}
     </div>
+
   </div>
-))}
-</div>
-</div>
 </section>
 
 <section className="">
@@ -731,328 +733,329 @@ return (
 </section>
 
 
-<section className="">
-<div className="max-w-7xl mx-auto px-4">
-  
-  <div className="bg-[#F6F8ED] rounded-3xl p-8 lg:p-12
-                  flex flex-col lg:flex-row items-center gap-10">
+<section className="sm:py-12">
+  <div className="max-w-7xl mx-auto px-4">
 
-    {/* ================= LEFT CONTENT ================= */}
-    <div className="flex-1 w-full">
+    <div className="bg-[#F6F8ED] rounded-2xl sm:rounded-3xl
+                    p-6 sm:p-8 lg:p-12
+                    flex flex-col lg:flex-row items-center gap-8 lg:gap-10">
 
-      {/* TITLE */}
-      <h1 className="text-3xl font-bold text-[#4A4A1F] mb-6">
-        Gift Finder
-      </h1>
+      {/* ================= LEFT CONTENT ================= */}
+      <div className="flex-1 w-full">
 
-      {/* CARD */}
-<div className="bg-white rounded-2xl shadow-md p-6 max-w-xl">
-<p className="text-sm font-medium text-gray-900 mb-4">
-  Search Gifts Quicker <span className="ml-1">⚡</span>
-</p>
+        {/* TITLE */}
+        <h1 className="text-2xl sm:text-3xl font-bold text-[#4A4A1F] mb-4 sm:mb-6">
+          Gift Finder
+        </h1>
 
-{/* IMAGES */}
-<div className="flex gap-6 mb-6">
-
-  {/* OCCASION */}
-  <div
-    onClick={() => {
-      setGiftTab("occasion");
-      setShowOptions(true);
-    }}
-    className="flex flex-col items-center cursor-pointer"
-  >
-    <div className="w-28 h-28 rounded-xl overflow-hidden shadow-sm">
-      <img
-        src="/images/New-App_Gift-Finder_Occasion.jpg"
-        alt="Occasion"
-        className="w-full h-full object-cover"
-      />
-    </div>
-    <span className="mt-2 text-sm text-gray-700">
-      Occasion
-    </span>
-  </div>
-
-  {/* GIFT TYPE */}
-  <div
-    onClick={() => {
-      setGiftTab("gift");
-      setShowOptions(true);
-    }}
-    className="flex flex-col items-center cursor-pointer"
-  >
-    <div className="w-28 h-28 rounded-xl overflow-hidden shadow-sm">
-      <img
-        src="/images/New-App_Gift-Finder_Gift-Type.jpg"
-        alt="Gift Type"
-        className="w-full h-full object-cover"
-      />
-    </div>
-    <span className="mt-2 text-sm text-gray-700">
-      Gift Type
-    </span>
-  </div>
-
-</div>
-
-{/* CHIPS – ONLY AFTER IMAGE CLICK */}
-{showOptions && (
-  <div className="flex flex-wrap gap-3">
-    {(giftTab === "occasion" ? occasionList : giftTypeList).map(
-      (item) => (
-        <button
-          key={item}
-          className="px-4 py-2 rounded-full text-xs sm:text-sm
-                      border border-gray-200 text-gray-700
-                      hover:border-gray-400 hover:text-gray-900
-                      transition"
-        >
-          {item}
-        </button>
-      )
-    )}
-  </div>
-)}
-</div>
-
-    </div>
-
-    {/* ================= RIGHT IMAGE ================= */}
-    <div className="flex-1 flex justify-center relative">
-
-      {/* CIRCLE BG */}
-      <div className="w-[280px] h-[280px] sm:w-[418px] sm:h-[386px]
-                      rounded-full bg-[#C8F0DF]
-                      flex items-center justify-center">
-
-        <img
-          src="/images/find.png"
-          alt="Gift Finder"
-          className="w-[100%] object-contain"
-        />
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
-</section>
-
-<section className="">
-<div className="max-w-7xl mx-auto px-4">
-
-  {/* TITLE */}
-  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-    Celebrations Calendar
-  </h2>
-
-  {/* SCROLLER */}
-  <div ref={calendarRef} className="flex gap-6 overflow-x-auto scroll-smooth scrollbar-hide pb-2">
-
-
-    {celebrations.map((item) => (
-      <div
-        key={item.title}
-        className="min-w-[220px] sm:min-w-[240px]
-                    flex-shrink-0 text-center"
-      >
         {/* CARD */}
-        <div className="relative rounded-2xl overflow-hidden shadow-md">
+        <div className="bg-white rounded-xl sm:rounded-2xl shadow-md p-4 sm:p-6 max-w-xl">
+          <p className="text-sm font-medium text-gray-900 mb-4">
+            Search Gifts Quicker <span className="ml-1">⚡</span>
+          </p>
 
-          {/* DATE BADGE */}
-          <div className="absolute top-0 left-0 right-0
-                          bg-gray-200/90 text-gray-900
-                          text-xs font-semibold py-2 text-center z-10">
-            {item.date}
+          {/* IMAGES */}
+          <div className="flex gap-4 sm:gap-6 mb-5 sm:mb-6">
+
+            {/* OCCASION */}
+            <div
+              onClick={() => {
+                setGiftTab("occasion");
+                setShowOptions(true);
+              }}
+              className="flex flex-col items-center cursor-pointer flex-1"
+            >
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shadow-sm">
+                <img
+                  src="/images/New-App_Gift-Finder_Occasion.jpg"
+                  alt="Occasion"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="mt-2 text-xs sm:text-sm text-gray-700">
+                Occasion
+              </span>
+            </div>
+
+            {/* GIFT TYPE */}
+            <div
+              onClick={() => {
+                setGiftTab("gift");
+                setShowOptions(true);
+              }}
+              className="flex flex-col items-center cursor-pointer flex-1"
+            >
+              <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden shadow-sm">
+                <img
+                  src="/images/New-App_Gift-Finder_Gift-Type.jpg"
+                  alt="Gift Type"
+                  className="w-full h-full object-cover"
+                />
+              </div>
+              <span className="mt-2 text-xs sm:text-sm text-gray-700">
+                Gift Type
+              </span>
+            </div>
+
           </div>
 
-          {/* IMAGE */}
+          {/* CHIPS */}
+          {showOptions && (
+            <div className="flex flex-wrap gap-2 sm:gap-3">
+              {(giftTab === "occasion" ? occasionList : giftTypeList).map(
+                (item) => (
+                  <button
+                    key={item}
+                    className="px-3 sm:px-4 py-1.5 sm:py-2
+                               rounded-full text-xs sm:text-sm
+                               border border-gray-200 text-gray-700
+                               hover:border-gray-400 hover:text-gray-900
+                               transition"
+                  >
+                    {item}
+                  </button>
+                )
+              )}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* ================= RIGHT IMAGE ================= */}
+      <div className="flex-1 flex justify-center relative w-full">
+
+        {/* CIRCLE BG */}
+        <div className="w-[240px] h-[240px]
+                        sm:w-[320px] sm:h-[320px]
+                        lg:w-[418px] lg:h-[386px]
+                        rounded-full bg-[#C8F0DF]
+                        flex items-center justify-center">
+
           <img
-            src={item.img}
-            alt={item.title}
-            className="w-full h-[300px] object-cover"
+            src="/images/find.png"
+            alt="Gift Finder"
+            className="w-[90%] object-contain"
           />
         </div>
 
-        {/* LABEL */}
-        <p className="mt-3 text-sm font-medium text-gray-900">
-          {item.title}
-        </p>
       </div>
-    ))}
+
+    </div>
 
   </div>
-
-</div>
 </section>
 
-<section className="py-10 bg-white">
-<div className="max-w-7xl mx-auto px-4">
+<section className="py-8 sm:py-12">
+  <div className="max-w-7xl mx-auto px-4">
 
-  {/* TITLE */}
-  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-    Joyful Gifting Stories
-  </h2>
+    {/* TITLE */}
+    <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+      Celebrations Calendar
+    </h2>
 
-  <div className="relative">
-
-    {/* LEFT ARROW */}
-    <button
-      onClick={() =>
-        storyRef.current?.scrollBy({
-          left: -220,
-          behavior: "smooth",
-        })
-      }
-      className="absolute -left-4 top-1/2 -translate-y-1/2 z-10
-                  w-10 h-10 bg-white shadow-md rounded-full
-                  flex items-center justify-center"
-    >
-      ‹
-    </button>
-
-    {/* STORIES */}
+    {/* SCROLLER */}
     <div
-ref={storyRef}
-className="flex gap-5 overflow-x-auto scrollbar-hide scroll-smooth"
->
-{giftingStories.map((story, index) => (
-  <div
-    key={index}
-    className="relative min-w-[180px] h-[320px]
-                rounded-2xl overflow-hidden
-                bg-black flex-shrink-0"
-  >
-    {/* VIDEO */}
-    <video
-      src={story.img}
-      muted
-      loop
-      playsInline
-      preload="metadata"
-      className="w-full h-full object-cover"
-      onMouseEnter={(e) => e.currentTarget.play()}
-      onMouseLeave={(e) => {
-        e.currentTarget.pause();
-        e.currentTarget.currentTime = 0;
-      }}
-    />
-
-    {/* OVERLAY */}
-    <div className="absolute inset-0 bg-black/20 pointer-events-none" />
-
-    {/* VIEWS */}
-    <div className="absolute top-2 left-2
-                    flex items-center gap-1
-                    bg-black/60 text-white
-                    text-xs px-2 py-1 rounded-full
-                    pointer-events-none">
-      👁 {story.views}
-    </div>
-
-    {/* MUTE ICON */}
-    <div className="absolute top-2 right-2
-                    bg-black/60 text-white
-                    text-xs p-1 rounded-full
-                    pointer-events-none">
-      🔇
-    </div>
-
-    {/* PLAY ICON */}
-    <div className="absolute inset-0
-                    flex items-center justify-center
-                    pointer-events-none">
-      {/* <div className="w-12 h-12 bg-white/90
-                      rounded-full flex
-                      items-center justify-center">
-        ▶
-      </div> */}
-    </div>
-
-    {/* BOTTOM LABEL */}
-<div className="absolute bottom-3 left-1/2 -translate-x-1/2 pointer-events-none text-center">
-<span
-  className="inline-block max-w-[140px]
-              px-4 py-1.5
-              rounded-xl
-              text-[11px] font-medium leading-tight
-              text-white
-              bg-black/60 backdrop-blur
-              shadow-lg"
->
-  {story.label}
-</span>
-</div>
-
-
-
-  </div>
-))}
-</div>
-
-
-    {/* RIGHT ARROW */}
-    <button
-      onClick={() =>
-        storyRef.current?.scrollBy({
-          left: 220,
-          behavior: "smooth",
-        })
-      }
-      className="absolute -right-4 top-1/2 -translate-y-1/2 z-10
-                  w-10 h-10 bg-white shadow-md rounded-full
-                  flex items-center justify-center"
+      ref={calendarRef}
+      className="flex gap-4 sm:gap-6
+                 overflow-x-auto scroll-smooth scrollbar-hide
+                 pb-2 snap-x snap-mandatory"
     >
-      ›
-    </button>
+      {celebrations.map((item) => (
+        <div
+          key={item.title}
+          className="min-w-[180px] sm:min-w-[220px] lg:min-w-[240px]
+                     flex-shrink-0 text-center snap-start"
+        >
+          {/* CARD */}
+          <div className="relative rounded-xl sm:rounded-2xl overflow-hidden shadow-md">
+
+            {/* DATE BADGE */}
+            <div className="absolute top-0 left-0 right-0
+                            bg-gray-200/90 text-gray-900
+                            text-[10px] sm:text-xs font-semibold
+                            py-1.5 sm:py-2 text-center z-10">
+              {item.date}
+            </div>
+
+            {/* IMAGE */}
+            <img
+              src={item.img}
+              alt={item.title}
+              className="w-full h-[220px] sm:h-[260px] lg:h-[300px] object-cover"
+            />
+          </div>
+
+          {/* LABEL */}
+          <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-medium text-gray-900">
+            {item.title}
+          </p>
+        </div>
+      ))}
+    </div>
 
   </div>
-</div>
 </section>
 
 
+<section className="py-8 sm:py-10 bg-white">
+  <div className="max-w-7xl mx-auto px-4">
 
-<section className="py-10 bg-white">
-<div className="max-w-7xl mx-auto px-4">
+    {/* TITLE */}
+    <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+      Joyful Gifting Stories
+    </h2>
 
-  {/* TITLE */}
-  <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
-    Home & Living Gifts
-  </h2>
+    <div className="relative">
 
-  {/* GRID */}
-  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-
-    {homeLivingGifts.map((item) => (
-      <div
-        key={item.title}
-        className="group cursor-pointer text-center"
+      {/* LEFT ARROW – DESKTOP ONLY */}
+      <button
+        onClick={() =>
+          storyRef.current?.scrollBy({
+            left: -220,
+            behavior: "smooth",
+          })
+        }
+        className="hidden sm:flex absolute -left-4 top-1/2 -translate-y-1/2 z-10
+                   w-10 h-10 bg-white shadow-md rounded-full
+                   items-center justify-center"
       >
-        {/* IMAGE CARD */}
-        <div className="rounded-2xl overflow-hidden shadow-sm
-                        transition duration-300
-                        group-hover:shadow-lg">
-          <img
-            src={item.img}
-            alt={item.title}
-            className="w-full h-[220px] object-cover
-                        transition duration-300
-                        group-hover:scale-[1.03]"
-          />
-        </div>
+        ‹
+      </button>
 
-        {/* LABEL */}
-        <p className="mt-3 text-sm font-medium text-gray-900">
-          {item.title}
-        </p>
+      {/* STORIES */}
+      <div
+        ref={storyRef}
+        className="flex gap-4 sm:gap-5
+                   overflow-x-auto scrollbar-hide scroll-smooth
+                   snap-x snap-mandatory pb-2"
+      >
+        {giftingStories.map((story, index) => (
+          <div
+            key={index}
+            className="relative min-w-[140px] sm:min-w-[180px]
+                       h-[240px] sm:h-[320px]
+                       rounded-xl sm:rounded-2xl
+                       overflow-hidden bg-black
+                       flex-shrink-0 snap-start"
+          >
+            {/* VIDEO */}
+            <video
+              src={story.img}
+              muted
+              loop
+              playsInline
+              preload="metadata"
+              className="w-full h-full object-cover"
+              onMouseEnter={(e) => e.currentTarget.play()}
+              onMouseLeave={(e) => {
+                e.currentTarget.pause();
+                e.currentTarget.currentTime = 0;
+              }}
+            />
+
+            {/* OVERLAY */}
+            <div className="absolute inset-0 bg-black/20 pointer-events-none" />
+
+            {/* VIEWS */}
+            <div className="absolute top-2 left-2
+                            flex items-center gap-1
+                            bg-black/60 text-white
+                            text-[10px] sm:text-xs
+                            px-2 py-1 rounded-full
+                            pointer-events-none">
+              👁 {story.views}
+            </div>
+
+            {/* MUTE ICON */}
+            <div className="absolute top-2 right-2
+                            bg-black/60 text-white
+                            text-[10px] sm:text-xs
+                            p-1 rounded-full
+                            pointer-events-none">
+              🔇
+            </div>
+
+            {/* BOTTOM LABEL */}
+            <div className="absolute bottom-2 sm:bottom-3
+                            left-1/2 -translate-x-1/2
+                            pointer-events-none text-center">
+              <span
+                className="inline-block max-w-[120px] sm:max-w-[140px]
+                           px-3 sm:px-4 py-1.5
+                           rounded-xl
+                           text-[10px] sm:text-[11px]
+                           font-medium leading-tight
+                           text-white
+                           bg-black/60 backdrop-blur
+                           shadow-lg"
+              >
+                {story.label}
+              </span>
+            </div>
+          </div>
+        ))}
       </div>
-    ))}
+
+      {/* RIGHT ARROW – DESKTOP ONLY */}
+      <button
+        onClick={() =>
+          storyRef.current?.scrollBy({
+            left: 220,
+            behavior: "smooth",
+          })
+        }
+        className="hidden sm:flex absolute -right-4 top-1/2 -translate-y-1/2 z-10
+                   w-10 h-10 bg-white shadow-md rounded-full
+                   items-center justify-center"
+      >
+        ›
+      </button>
+
+    </div>
+  </div>
+</section>
+
+
+<section className="py-8 sm:py-10 bg-white">
+  <div className="max-w-7xl mx-auto px-4">
+
+    {/* TITLE */}
+    <h2 className="text-lg sm:text-2xl font-bold text-gray-900 mb-4 sm:mb-6">
+      Home & Living Gifts
+    </h2>
+
+    {/* GRID */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+
+      {homeLivingGifts.map((item) => (
+        <div
+          key={item.title}
+          className="group cursor-pointer text-center"
+        >
+          {/* IMAGE CARD */}
+          <div className="rounded-xl sm:rounded-2xl overflow-hidden shadow-sm
+                          transition duration-300
+                          group-hover:shadow-lg">
+            <img
+              src={item.img}
+              alt={item.title}
+              className="w-full h-[180px] sm:h-[220px] lg:h-[260px]
+                         object-cover
+                         transition duration-300
+                         group-hover:scale-[1.03]"
+            />
+          </div>
+
+          {/* LABEL */}
+          <p className="mt-2 sm:mt-3 text-xs sm:text-sm font-medium text-gray-900">
+            {item.title}
+          </p>
+        </div>
+      ))}
+
+    </div>
 
   </div>
-
-</div>
 </section>
 
 <section className="py-12 bg-white">
