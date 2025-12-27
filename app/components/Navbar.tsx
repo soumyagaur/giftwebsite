@@ -32,103 +32,325 @@ const categories = [
   "International",
   "On Trend",
 ];
+const christmasMenu = {
+  joyfulGifts: [
+    "All Christmas Gifts",
+    "Cakes",
+    "Personalised Gifts",
+    "Christmas Hampers",
+    "Dry Cakes",
+    "Home Decor",
+    "Flowers",
+    "Plants",
+    "Balloon Decorations",
+    "Christmas Trees",
+    "Premium Gifts",
+    "Luxe Gifts",
+    "Gift Sets",
+    "Unique Gifts",
+  ],
+  secretSanta: [
+    "Secret Santa Gifts",
+    "Gifts for Him",
+    "Gifts for Her",
+    "Chocolates",
+    "Toys & Games",
+  ],
+  merryGifting: ["Him", "Her", "Kids", "Friends", "Family"],
+  abroad: [
+    "USA",
+    "UK",
+    "Canada",
+    "Australia",
+    "UAE",
+    "New Zealand",
+    "Germany",
+    "All Countries",
+  ],
+};
+
+const birthdayMenu = {
+  mustHaves: [
+    "Gifts in 60 mins",
+    "Cakes",
+    "Flowers",
+    "Flowers n Cakes",
+    "Flowers n Chocolates",
+    "Personalised Gifts",
+    "Plants",
+    "Combos",
+    "Chocolates",
+    "Gift Hampers",
+    "Greeting Cards",
+    "Hatke Gifts",
+    "Prime Picks",
+    "All Gifts",
+  ],
+
+  bestsellers: [
+    "Bestsellers",
+    "New Arrivals",
+    "Healthy Cakes",
+    "Zodiac Gifts",
+    "Premium Gifts",
+    "Unusual Gifts",
+    "Midnight Delivery",
+    "Return Gifts",
+    "Luxe Birthday",
+    "Pet Gifts",
+  ],
+
+  personalPicks: [
+    "Plant Lover",
+    "Wanderer",
+    "Foodies",
+    "Music Fan",
+    "Fashionista",
+  ],
+
+  birthdayFor: [
+    "Her",
+    "Him",
+    "Kids",
+    "Friends",
+    "Wife",
+    "Husband",
+    "Girlfriend",
+    "Boyfriend",
+    "Mother",
+    "Father",
+  ],
+
+  agePerfect: [
+    "1st Birthday",
+    "10th Birthday",
+    "18th Birthday",
+    "50th Birthday",
+  ],
+
+  uniqueGifting: [
+    "Spiritual Gifts",
+    "Jewellery",
+    "Experiential Gifts",
+    "Electronics",
+    "Exotic Flowers",
+    "Toys n Games",
+    "Balloon Decor",
+    "Gifts n Guitarist",
+  ],
+
+  priceWise: [
+    "Below Rs 500",
+    "Rs 500 - Rs 1000",
+    "Rs 1000 - Rs 2000",
+    "Above Rs 2000",
+  ],
+};
+
 
 export default function Navbar() {
   const { totalItems } = useCart();
   const [mobileMenu, setMobileMenu] = useState(false);
   const [location] = useState("Location missing");
+  const [activeMegaMenu, setActiveMegaMenu] = useState<"christmas" | "birthday" | null>(null);
+
+  const [openMobileSubmenu, setOpenMobileSubmenu] = useState<string | null>(null);
+
 
   return (
     <>
       {/* ===== HEADER ===== */}
-      <header className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
-        {/* Top Banner */}
-        <div
-          className="h-10 bg-cover bg-center hidden md:block"
-          style={{
-            backgroundImage:
-              "url('/images/desktop-free-delivery-banner-12-dec2.webp')",
-          }}
+<header className="fixed top-0 left-0 w-full z-50 bg-white shadow-sm">
+
+  {/* TOP BANNER */}
+  <div
+    className="h-10 bg-cover bg-center hidden md:block"
+    style={{
+      backgroundImage:
+        "url('/images/desktop-free-delivery-banner-12-dec2.webp')",
+    }}
+  />
+
+  {/* MAIN BAR */}
+  <div className="border-b">
+    <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between gap-3">
+
+      {/* LEFT */}
+      <div className="flex items-center gap-3">
+        <button
+          className="md:hidden p-2"
+          onClick={() => setMobileMenu(true)}
+        >
+          <Menu size={22} />
+        </button>
+
+        <Link href="/">
+          <img
+            src="/images/logo.png"
+            alt="Logo"
+            className="h-8 md:h-48 w-auto"
+          />
+        </Link>
+
+        <button className="hidden md:flex flex-col text-left text-xs">
+          <span className="font-medium text-gray-900">
+            Where to deliver?
+          </span>
+          <span className="text-red-600 flex items-center gap-1">
+            {location} <span className="text-gray-700">▼</span>
+          </span>
+        </button>
+      </div>
+
+      {/* SEARCH */}
+      <div className="hidden md:flex flex-1 max-w-xl relative">
+        <Search
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+          size={18}
         />
+        <input
+          placeholder="Search for gifts"
+          className="w-full pl-10 pr-4 py-2 border rounded-full text-sm"
+        />
+      </div>
 
-        {/* Main Bar */}
-        <div className="border-b">
-          <div className="max-w-7xl mx-auto px-4 h-14 md:h-16 flex items-center justify-between gap-3">
-            {/* Left */}
-            <div className="flex items-center gap-3">
-              <button
-                className="md:hidden p-2"
-                onClick={() => setMobileMenu(true)}
-              >
-                <Menu size={22} />
-              </button>
+      {/* RIGHT */}
+      <div className="hidden md:flex items-center gap-6 text-xs text-gray-700">
+        <NavIcon icon={<Truck size={18} />} label="Same Day" />
+        <NavIcon icon={<IndianRupee size={18} />} label="INR" />
+        <NavIcon icon={<Gift size={18} />} label="Corporate" />
 
-              <Link href="/">
+        <Link href="/cart" className="relative text-center">
+          <ShoppingCart size={18} />
+          {totalItems > 0 && (
+            <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] rounded-full px-1">
+              {totalItems}
+            </span>
+          )}
+          <p>Cart</p>
+        </Link>
+
+        <NavIcon icon={<User size={18} />} label="Hi Guest" />
+        <NavIcon icon={<MoreHorizontal size={18} />} label="More" />
+      </div>
+    </div>
+  </div>
+
+  {/* CATEGORY BAR */}
+  <nav className="hidden md:block border-b bg-white relative">
+    <div className="max-w-7xl mx-auto px-4">
+      <ul className="flex gap-6 py-3 text-sm text-gray-800">
+
+        {/* CHRISTMAS */}
+        <li
+          onMouseEnter={() => setActiveMegaMenu("christmas")}
+          onMouseLeave={() => setActiveMegaMenu(null)}
+          className="cursor-pointer hover:text-red-600 whitespace-nowrap"
+        >
+          Christmas Gifts
+        </li>
+
+        {/* BIRTHDAY */}
+        <li
+          onMouseEnter={() => setActiveMegaMenu("birthday")}
+          onMouseLeave={() => setActiveMegaMenu(null)}
+          className="cursor-pointer hover:text-red-600 whitespace-nowrap"
+        >
+          Birthday
+        </li>
+
+        {/* NORMAL ITEMS */}
+        {categories
+          .filter(c => c !== "Christmas Gifts" && c !== "Birthday")
+          .map(item => (
+            <li key={item}>
+              <Link href="#" className="hover:text-red-600 whitespace-nowrap">
+                {item}
+              </Link>
+            </li>
+          ))}
+      </ul>
+    </div>
+
+    {/* ================= MEGA MENU CONTAINER ================= */}
+    {activeMegaMenu && (
+      <div
+        className="absolute left-0 top-full w-full bg-white shadow-xl border-t z-50"
+        onMouseEnter={() => setActiveMegaMenu(activeMegaMenu)}
+        onMouseLeave={() => setActiveMegaMenu(null)}
+      >
+        <div className="max-w-7xl mx-auto px-8 py-8">
+
+          {/* 🎄 CHRISTMAS MENU */}
+          {activeMegaMenu === "christmas" && (
+            <div className="grid grid-cols-5 gap-8">
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                  Joyful Gifts
+                </h4>
+
+                {christmasMenu.joyfulGifts.map(i => (
+                  <p key={i} className="text-sm text-gray-800 hover:text-red-600 cursor-pointer">{i}</p>
+                ))}
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Secret Santa</h4>
+                {christmasMenu.secretSanta.map(i => (
+                  <p key={i} className="text-sm text-gray-800 hover:text-red-600 cursor-pointer">{i}</p>
+                ))}
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Merry Gifting</h4>
+                {christmasMenu.merryGifting.map(i => (
+                  <p key={i} className="text-sm text-gray-800 hover:text-red-600 cursor-pointer">{i}</p>
+                ))}
+              </div>
+
+              <div>
+                <h4 className="text-sm font-semibold text-gray-900 mb-3">Abroad</h4>
+                {christmasMenu.abroad.map(i => (
+                  <p key={i} className="text-sm text-gray-800 hover:text-red-600 cursor-pointer">{i}</p>
+                ))}
+              </div>
+
+              <div>
                 <img
-                  src="/images/logo.png"
-                  alt="Logo"
-                  className="h-8 md:h-48 w-auto"
+                  src="/images/7be38b2996e9678ef8cfb385b4773214.gif"
+                  className="rounded-xl h-[300px] w-full object-cover"
                 />
-              </Link>
-
-              {/* Location Desktop */}
-              <button className="hidden md:flex flex-col text-left text-xs">
-                <span className="font-medium text-gray-900">
-                  Where to deliver?
-                </span>
-                <span className="text-red-600 flex items-center gap-1">
-                  {location} <span className="text-gray-700">▼</span>
-                </span>
-              </button>
+              </div>
             </div>
+          )}
 
-            {/* Search Desktop */}
-            <div className="hidden md:flex flex-1 max-w-xl relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
-              <input
-                type="text"
-                placeholder="Search for gifts"
-                className="w-full pl-10 pr-4 py-2 border rounded-full text-sm focus:outline-none focus:ring-1 focus:ring-red-500"
-              />
-            </div>
-
-            {/* Right Desktop */}
-            <div className="hidden md:flex items-center gap-6 text-xs text-gray-700">
-              <NavIcon icon={<Truck size={18} />} label="Same Day" />
-              <NavIcon icon={<IndianRupee size={18} />} label="INR" />
-              <NavIcon icon={<Gift size={18} />} label="Corporate" />
-
-              <Link href="/cart" className="relative text-center">
-                <ShoppingCart size={18} className="mx-auto" />
-                {totalItems > 0 && (
-                  <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[10px] rounded-full px-1">
-                    {totalItems}
-                  </span>
-                )}
-                <p>Cart</p>
-              </Link>
-
-              <NavIcon icon={<User size={18} />} label="Hi Guest" />
-              <NavIcon icon={<MoreHorizontal size={18} />} label="More" />
-            </div>
-          </div>
-        </div>
-
-        {/* Category Bar Desktop */}
-        <nav className="hidden md:block border-b">
-          <div className="max-w-7xl mx-auto px-4">
-            <ul className="flex gap-6 py-3 text-sm text-gray-800 overflow-x-auto">
-              {categories.map((item) => (
-                <li key={item}>
-                  <Link href="#" className="hover:text-red-600 whitespace-nowrap">
-                    {item}
-                  </Link>
-                </li>
+          {/* 🎂 BIRTHDAY MENU */}
+   {activeMegaMenu === "birthday" && (
+        <div className="grid grid-cols-6 gap-8">
+          {Object.entries(birthdayMenu).map(([title, items]) => (
+            <div key={title}>
+              <h4 className="text-sm font-bold text-gray-900 mb-3 capitalize">
+                {title.replace(/([A-Z])/g, " $1")}
+              </h4>
+              {items.map(item => (
+                <p
+                  key={item}
+                  className="text-sm text-gray-700 hover:text-red-600 cursor-pointer leading-6"
+                >
+                  {item}
+                </p>
               ))}
-            </ul>
-          </div>
-        </nav>
-      </header>
+            </div>
+          ))}
+        </div>
+      )}
+
+        </div>
+      </div>
+    )}
+  </nav>
+</header>
+
 
       {/* ===== MOBILE DRAWER ===== */}
       {mobileMenu && (
@@ -169,19 +391,95 @@ export default function Navbar() {
             </div>
 
             {/* Categories */}
-            <ul className="space-y-4 text-sm text-gray-800">
-              {categories.map((item) => (
-                <li key={item}>
-                  <Link
-                    href="#"
-                    className="block"
-                    onClick={() => setMobileMenu(false)}
-                  >
-                    {item}
-                  </Link>
+<ul className="space-y-4 text-sm text-gray-800">
+
+  {/* 🎄 CHRISTMAS */}
+  <li>
+    <button
+      className="w-full flex justify-between items-center font-medium"
+      onClick={() =>
+        setOpenMobileSubmenu(
+          openMobileSubmenu === "christmas" ? null : "christmas"
+        )
+      }
+    >
+      Christmas Gifts
+      <span>{openMobileSubmenu === "christmas" ? "−" : "+"}</span>
+    </button>
+
+    {openMobileSubmenu === "christmas" && (
+      <div className="mt-3 ml-3 space-y-3 text-xs text-gray-700">
+        {Object.entries(christmasMenu).map(([section, items]) => (
+          <div key={section}>
+            <p className="font-semibold text-gray-900 mb-1">
+              {section.replace(/([A-Z])/g, " $1")}
+            </p>
+            <ul className="space-y-1">
+              {items.map(item => (
+                <li
+                  key={item}
+                  className="hover:text-red-600 cursor-pointer"
+                >
+                  {item}
                 </li>
               ))}
             </ul>
+          </div>
+        ))}
+      </div>
+    )}
+  </li>
+
+  {/* 🎂 BIRTHDAY */}
+  <li>
+    <button
+      className="w-full flex justify-between items-center font-medium"
+      onClick={() =>
+        setOpenMobileSubmenu(
+          openMobileSubmenu === "birthday" ? null : "birthday"
+        )
+      }
+    >
+      Birthday
+      <span>{openMobileSubmenu === "birthday" ? "−" : "+"}</span>
+    </button>
+
+    {openMobileSubmenu === "birthday" && (
+      <div className="mt-3 ml-3 space-y-3 text-xs text-gray-700">
+        {Object.entries(birthdayMenu).map(([section, items]) => (
+          <div key={section}>
+            <p className="font-semibold text-gray-900 mb-1">
+              {section.replace(/([A-Z])/g, " $1")}
+            </p>
+            <ul className="space-y-1">
+              {items.map(item => (
+                <li
+                  key={item}
+                  className="hover:text-red-600 cursor-pointer"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    )}
+  </li>
+
+  {/* NORMAL LINKS */}
+  {categories
+    .filter(c => c !== "Christmas Gifts" && c !== "Birthday")
+    .map(item => (
+      <li key={item}>
+        <Link href="#" onClick={() => setMobileMenu(false)}>
+          {item}
+        </Link>
+      </li>
+    ))}
+</ul>
+
+
           </div>
         </div>
       )}
