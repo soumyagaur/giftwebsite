@@ -733,7 +733,7 @@ return (
 </section>
 
 
-<section className="sm:py-12">
+<section className="">
   <div className="max-w-7xl mx-auto px-4">
 
     <div className="bg-[#F6F8ED] rounded-2xl sm:rounded-3xl
@@ -845,7 +845,7 @@ return (
   </div>
 </section>
 
-<section className="py-8 sm:py-12">
+<section className="">
   <div className="max-w-7xl mx-auto px-4">
 
     {/* TITLE */}
@@ -897,7 +897,7 @@ return (
 </section>
 
 
-<section className="py-8 sm:py-10 bg-white">
+<section className="bg-white">
   <div className="max-w-7xl mx-auto px-4">
 
     {/* TITLE */}
