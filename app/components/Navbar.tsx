@@ -244,20 +244,18 @@ export default function Navbar() {
         {/* CHRISTMAS */}
         <li
           onMouseEnter={() => setActiveMegaMenu("christmas")}
-          onMouseLeave={() => setActiveMegaMenu(null)}
           className="cursor-pointer hover:text-red-600 whitespace-nowrap"
         >
           Christmas Gifts
         </li>
 
         {/* BIRTHDAY */}
-        <li
-          onMouseEnter={() => setActiveMegaMenu("birthday")}
-          onMouseLeave={() => setActiveMegaMenu(null)}
-          className="cursor-pointer hover:text-red-600 whitespace-nowrap"
-        >
-          Birthday
-        </li>
+<li
+  onMouseEnter={() => setActiveMegaMenu("birthday")}
+  className="cursor-pointer hover:text-red-600 whitespace-nowrap"
+>
+  Birthday
+</li>
 
         {/* NORMAL ITEMS */}
         {categories
@@ -279,19 +277,37 @@ export default function Navbar() {
         onMouseEnter={() => setActiveMegaMenu(activeMegaMenu)}
         onMouseLeave={() => setActiveMegaMenu(null)}
       >
+
         <div className="max-w-7xl mx-auto px-8 py-8">
 
           {/* 🎄 CHRISTMAS MENU */}
           {activeMegaMenu === "christmas" && (
             <div className="grid grid-cols-5 gap-8">
               <div>
-                <h4 className="text-sm font-semibold text-gray-900 mb-3">
+                <h4 className="text-sm font-bold text-gray-900 mb-4 uppercase tracking-wide">
                   Joyful Gifts
                 </h4>
+                  <ul className="space-y-2">
+                    {christmasMenu.joyfulGifts.map(item =>
+                      item === "All Christmas Gifts" ? (
+                        <Link
+                          key={item}
+                          href="/gifts/christmas"
+                          className="block text-sm font-semibold text-gray-900 hover:text-red-600"
+                        >
+                          {item}
+                        </Link>
+                      ) : (
+                        <li
+                          key={item}
+                          className="text-sm text-gray-700 hover:text-red-600 cursor-pointer"
+                        >
+                          {item}
+                        </li>
+                      )
+                    )}
+                  </ul>
 
-                {christmasMenu.joyfulGifts.map(i => (
-                  <p key={i} className="text-sm text-gray-800 hover:text-red-600 cursor-pointer">{i}</p>
-                ))}
               </div>
 
               <div>
@@ -372,13 +388,13 @@ export default function Navbar() {
             </div>
 
             {/* Location */}
-<div className="mb-4">
-  <p className="text-sm font-medium flex items-center gap-1 text-gray-900">
-    <MapPin size={14} />
-    Deliver to
-  </p>
-  <p className="text-red-600 text-xs">{location}</p>
-</div>
+            <div className="mb-4">
+              <p className="text-sm font-medium flex items-center gap-1 text-gray-900">
+                <MapPin size={14} />
+                Deliver to
+              </p>
+              <p className="text-red-600 text-xs">{location}</p>
+            </div>
 
 
             {/* Search */}
