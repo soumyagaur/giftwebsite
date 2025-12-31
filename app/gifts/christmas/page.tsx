@@ -185,7 +185,7 @@ export default function ChristmasGiftsPage() {
             <div className="h-20 mb-2 bg-white rounded-xl flex items-center justify-center">
               <Image src={cat.image} alt={cat.name} width={64} height={64} />
             </div>
-            <p className="text-sm font-medium">{cat.name}</p>
+            <p className="text-sm font-medium text-gray-900">{cat.name}</p>
           </div>
         ))}
       </div>
