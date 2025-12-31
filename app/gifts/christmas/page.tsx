@@ -14,6 +14,7 @@ const categories = [
   { name: "Chocolates", image: "/images/Chocolates_NY-alpha_528x528.jpg" },
   { name: "Balloon Decor", image: "/images/Decor_NY-alpha_528x528.jpg" },
   { name: "Gift Sets", image: "/images/Premium_Set_NY-alpha_528x528.jpg" },
+  { name: "Frame", image: "/images/811g4jsIFhL._SL1500_.jpg" },
 ];
 
 /* ---------------- PRODUCTS ---------------- */
