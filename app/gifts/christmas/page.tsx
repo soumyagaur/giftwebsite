@@ -14,107 +14,35 @@ const categories = [
   { name: "Chocolates", image: "/images/Chocolates_NY-alpha_528x528.jpg" },
   { name: "Balloon Decor", image: "/images/Decor_NY-alpha_528x528.jpg" },
   { name: "Gift Sets", image: "/images/Premium_Set_NY-alpha_528x528.jpg" },
-  { name: "Frame", image: "/images/811g4jsIFhL._SL1500_.jpg" },
-];
-
-/* ---------------- PRODUCTS ---------------- */
-
-const products = [
-  {
-    name: "FlowerAura Fresh Live Flower Bouquet of 8 Pink Roses",
-    price: 1449,
-    mrp: 1849,
-    images: [
-      "/images/71f9+ovEURL._SL1500_.jpg",
-      "/images/71YmB1nTGOL._SL1500_.jpg",
-      "/images/81CYb-sEm5L._SL1500_.jpg",
-    ],
-  },
-  {
-    name: "Christmas Chocolate Cake",
-    price: 999,
-    mrp: 1299,
-    images: [
-      "/images/p-choco-chip-loaded-birthday-cake-300-gm--276154-m.avif",
-      "/images/p-choco-chip-loaded-birthday-cake-300-gm--276154-1.avif",
-      "/images/p-choco-chip-loaded-birthday-cake-300-gm--276154-2.avif",
-    ],
-  },
-  {
-    name: "Happy New Year Printed Coffee Mug",
-    price: 1299,
-    mrp: 1599,
-    images: [
-      "/images/61sipLgsm2L._SX569_.jpg",
-      "/images/51-V2xyCmfL._SX569_.jpg",
-    ],
-  },
-  {
-    name: "Luxury Gift Hamper",
-    price: 2499,
-    mrp: 2999,
-    images: [
-      "/images/71lIlkhAY8L._SL1024_.jpg",
-      "/images/71i9uBpZw2L._SL1100_.jpg",
-    ],
-  },
 ];
 
 /* ---------------- PRODUCT CARD ---------------- */
 
 function ProductCard({ product }: any) {
-  const [imgIndex, setImgIndex] = useState(0);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
-
-  const startHover = () => {
-    if (intervalRef.current) return;
-    intervalRef.current = setInterval(() => {
-      setImgIndex(i => (i + 1) % product.images.length);
-    }, 900);
-  };
-
-  const stopHover = () => {
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = null;
-    }
-    setImgIndex(0);
-  };
-
-  useEffect(() => stopHover, []);
-
   return (
-    <div
-      className="group bg-white border rounded-xl overflow-hidden transition active:scale-[0.97]"
-      onMouseEnter={startHover}
-      onMouseLeave={stopHover}
-    >
+    <div className="group bg-white border rounded-xl overflow-hidden transition hover:shadow-md">
       <div className="relative aspect-square bg-gray-100">
         <Image
-          src={product.images[imgIndex]}
-          alt={product.name}
+          src={product.image}
+          alt={product.title}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
         />
       </div>
 
-      <div className="p-2.5 sm:p-4">
-        <h3 className="text-[12px] sm:text-sm font-medium mb-1 line-clamp-2 text-gray-800">
-          {product.name}
+      <div className="p-3">
+        <h3 className="text-sm font-medium mb-1 line-clamp-2 text-gray-800">
+          {product.title}
         </h3>
 
-        <div className="flex items-center gap-1.5">
-          <span className="text-green-700 font-semibold text-sm">
+        <div className="flex items-center justify-between">
+          <span className="text-green-700 font-semibold">
             ₹{product.price}
           </span>
-          <span className="text-[10px] text-gray-500 line-through">
-            ₹{product.mrp}
+          <span className="text-xs text-gray-500">
+            ★ {product.rating}
           </span>
         </div>
-
-        <p className="text-[10px] text-blue-600">
-          Earliest Delivery: Today
-        </p>
       </div>
     </div>
   );
@@ -124,8 +52,29 @@ function ProductCard({ product }: any) {
 
 export default function ChristmasGiftsPage() {
   const mobileCategoryRef = useRef<HTMLDivElement | null>(null);
+  const [products, setProducts] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  /* Auto-scroll only mobile categories */
+  /* Fetch products from MongoDB API */
+  useEffect(() => {
+    async function fetchProducts() {
+      try {
+        const res = await fetch(
+          "/api/products?category=christmas-gifts"
+        );
+        const data = await res.json();
+        setProducts(data);
+      } catch (error) {
+        console.error("Failed to fetch products", error);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchProducts();
+  }, []);
+
+  /* Auto-scroll mobile categories */
   useEffect(() => {
     const slider = mobileCategoryRef.current;
     if (!slider) return;
@@ -135,7 +84,7 @@ export default function ChristmasGiftsPage() {
       x += 1;
       if (x >= slider.scrollWidth - slider.clientWidth) x = 0;
       slider.scrollLeft = x;
-    }, 20);
+    }, 25);
 
     return () => clearInterval(interval);
   }, []);
@@ -147,56 +96,66 @@ export default function ChristmasGiftsPage() {
         Home / Christmas Gifts
       </p>
 
-      {/* MOBILE CATEGORIES (TOP + AUTOSCROLL) */}
+      {/* MOBILE CATEGORIES */}
       <div
         ref={mobileCategoryRef}
         className="sm:hidden flex gap-3 overflow-x-auto pb-4 -mx-3 px-3 mb-4"
       >
         {categories.map(cat => (
-          <div key={cat.name} className="min-w-[96px] bg-[#fff3e6] rounded-2xl p-2.5 text-center">
+          <div
+            key={cat.name}
+            className="min-w-[96px] bg-[#fff3e6] rounded-2xl p-2.5 text-center"
+          >
             <div className="h-14 mb-1 bg-white rounded-xl flex items-center justify-center">
-              <Image src={cat.image} alt={cat.name} width={64} height={64} />
+              <Image src={cat.image} alt={cat.name} width={60} height={60} />
             </div>
-            <p className="text-[11px] font-medium text-gray-900">{cat.name}</p>
+            <p className="text-[11px] font-medium text-gray-900">
+              {cat.name}
+            </p>
           </div>
         ))}
       </div>
 
       {/* TITLE */}
-      <div className="mb-4 sm:mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+      <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
         <h1 className="text-xl sm:text-3xl font-bold text-gray-900">
           Christmas Gifts
         </h1>
-
-        <div className="flex items-center gap-2 text-xs sm:text-sm">
-          <span className="text-gray-600">80 of 375 Gifts</span>
-          <span className="bg-green-100 text-green-700 px-2 py-0.5 rounded-full text-[11px]">
-            ★ 4.8
-          </span>
-          <span className="text-blue-600 text-[11px] sm:text-sm">
-            1261 Reviews
-          </span>
-        </div>
       </div>
 
       {/* DESKTOP CATEGORIES */}
       <div className="hidden sm:flex gap-4 mb-6">
         {categories.map(cat => (
-          <div key={cat.name} className="min-w-[130px] bg-[#fff3e6] rounded-2xl p-4 text-center">
+          <div
+            key={cat.name}
+            className="min-w-[130px] bg-[#fff3e6] rounded-2xl p-4 text-center"
+          >
             <div className="h-20 mb-2 bg-white rounded-xl flex items-center justify-center">
               <Image src={cat.image} alt={cat.name} width={64} height={64} />
             </div>
-            <p className="text-sm font-medium text-gray-900">{cat.name}</p>
+            <p className="text-sm font-medium text-gray-900">
+              {cat.name}
+            </p>
           </div>
         ))}
       </div>
 
       {/* PRODUCTS */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-6">
-        {products.map((p, i) => (
-          <ProductCard key={i} product={p} />
-        ))}
-      </div>
+      {loading ? (
+        <p className="text-center py-10 text-gray-500">
+          Loading Christmas Gifts...
+        </p>
+      ) : products.length === 0 ? (
+        <p className="text-center py-10 text-gray-500">
+          No products found.
+        </p>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 sm:gap-6">
+          {products.map(product => (
+            <ProductCard key={product._id} product={product} />
+          ))}
+        </div>
+      )}
 
     </div>
   );

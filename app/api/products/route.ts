@@ -1,33 +1,25 @@
 import { NextResponse } from "next/server";
-
-const products = [
-  {
-    id: 1,
-    title: "Xmas Golden Red Solo Bloom Pot",
-    price: 1449,
-    category: "christmas-gifts",
-    subcategory: "plants",
-    image: "/images/product1.jpg",
-    rating: 4.8,
-  },
-  {
-    id: 2,
-    title: "Mixed Fruit Delicious Dry Cake 500gms",
-    price: 529,
-    category: "christmas-gifts",
-    subcategory: "cakes",
-    image: "/images/product2.jpg",
-    rating: 4.6,
-  },
-];
+import clientPromise from "@/lib/mongodb";
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const category = searchParams.get("category");
+  try {
+    const { searchParams } = new URL(req.url);
+    const category = searchParams.get("category");
 
-  const filtered = category
-    ? products.filter(p => p.category === category)
-    : products;
+    const client = await clientPromise;
+    const db = client.db("ecomgift");
 
-  return NextResponse.json(filtered);
+    const products = await db
+      .collection("products")
+      .find(category ? { category } : {})
+      .toArray();
+
+    return NextResponse.json(products);
+  } catch (error) {
+    console.error("API ERROR:", error);
+    return NextResponse.json(
+      { error: "Failed to fetch products" },
+      { status: 500 }
+    );
+  }
 }
